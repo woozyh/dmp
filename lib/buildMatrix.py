@@ -1,35 +1,40 @@
 #!/usr/bin/python3.11.8
-from os          import listdir
 from fileReader  import Reader
-from nltk        import word_tokenize
+from os          import listdir
 from nltk.corpus import stopwords
+from nltk        import word_tokenize
+import sqlite3
 
 class BuildMatrix(object):
 
     def __init__(self) -> None:
-        self.docPaths = [f"/home/woozy/mine/dmp/docs/{doc}" for doc in listdir("/home/woozy/mine/dmp/docs/")]
-        self.termDoc  = {}
+        
         self.junks    = stopwords.words("english")
+        
+        try:
+            self.database = sqlite3.connect("termDoc.db")
+            self.cursor   = self.database.cursor()
+            [self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {doc[:-4]} (term text PRIMARY KEY, frequency int)") for doc in listdir("/home/woozy/mine/dmp/docs/")]
+            
+        except sqlite3.OperationalError as er:
+            print(f"database Error: {er}")
+        
 
     def buildDoc(self):
-        for doc in self.docPaths:
-            self.termDoc[doc] = dict()
-            content           = Reader(doc).read()
+        for doc in listdir("/home/woozy/mine/dmp/docs/"):
+            lines = Reader(doc).read()
             while True:
                 try:
-                    line = word_tokenize(next(content))
-                    for word in line:
+                    words = word_tokenize(next(lines))
+                    for word in words:
                         if word not in self.junks:
-                            if word not in self.termDoc[doc]:
-                                self.termDoc[doc][word] = 1
-                            else:
-                                self.termDoc[doc][word] += 1
-                    else:
-                        pass
+                            self.cursor.execute("INSERT INTO TABLE ")
+                            pass
                 except StopIteration:
                     break
-
-        print('')
+        print()
+        
+        pass
 
 ins = BuildMatrix()
-ins.buildDoc()
+# ins.buildDoc()
