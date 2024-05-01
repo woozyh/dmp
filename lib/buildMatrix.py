@@ -1,15 +1,12 @@
 #!/usr/bin/python3.11.8
 from fileReader  import Reader
 from os          import listdir
-from nltk.corpus import stopwords
-from nltk        import word_tokenize
+from nltk.tokenize import RegexpTokenizer
 import sqlite3
 
 class BuildMatrix(object):
 
     def __init__(self) -> None:
-        
-        self.junks    = stopwords.words("english")
         
         try:
             self.database = sqlite3.connect("termDoc.db")
@@ -19,22 +16,30 @@ class BuildMatrix(object):
         except sqlite3.OperationalError as er:
             print(f"database Error: {er}")
         
+    def remStopWordsOur(self, lineIn):
+        stopWords= {'i','i\'m', 'I\'m', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now'}
+        rmdStopWordsLn = ' '.join(w for w in lineIn.split() if w.lower() not in stopWords)
+        return rmdStopWordsLn
+
+    def preprocessText(self, lineIn):
+        lineInLower=lineIn.lower()
+        lineInRmdSplChars=lineInLower.replace('.',' ').replace(';',' ').replace(',',' ').replace('?',' ').replace('!',' ').replace(':',' ')
+        return lineInRmdSplChars
+
 
     def buildDoc(self):
         for doc in listdir("/home/woozy/mine/dmp/docs/"):
-            lines = Reader(doc).read()
+            lines = Reader(f"/home/woozy/mine/dmp/docs/{doc}").read()
             while True:
                 try:
-                    words = word_tokenize(next(lines))
+                    words = RegexpTokenizer(r'\w+').tokenize(self.remStopWordsOur(self.preprocessText(next(lines))))
                     for word in words:
-                        if word not in self.junks:
-                            self.cursor.execute("INSERT INTO TABLE ")
-                            pass
+                        # self.cursor.execute(f"INSERT OR IGNORE INTO {doc[:-4]} VALUES (?, ?) ON CONFLICT(term) DO UPDATE SET term=excluded.term, frequency=excluded.frequency+1;", (word, 1,))
+                        self.cursor.execute(f"INSERT OR IGNORE INTO {doc[:-4]} VALUES (?, ?)", (word, 1,))
+                        self.database.commit()
                 except StopIteration:
                     break
         print()
-        
-        pass
 
 ins = BuildMatrix()
-# ins.buildDoc()
+ins.buildDoc()
