@@ -17,8 +17,8 @@ class CosineSimilarity(object):
     
     def vectorization(self, doc_x, doc_y) -> tuple:
         frequencies = self.cursor.execute(f"SELECT {doc_x}.frequency, {doc_y}.frequency FROM {doc_x} INNER JOIN {doc_y} ON {doc_x}.term = {doc_y}.term").fetchall()
-        doc_x = array([f[0] for f in frequencies])        
-        doc_y = array([f[1] for f in frequencies])        
+        doc_x = array([f[0] for f in frequencies], dtype='i')        
+        doc_y = array([f[1] for f in frequencies], dtype='i')        
         return (doc_x, doc_y)
 
     def cosineSimilarity(self):
