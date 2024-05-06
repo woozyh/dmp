@@ -48,7 +48,7 @@ class BuildMatrix(object):
 
 def main():
     ins = BuildMatrix()
-    BuildMatrix.buildTermDocMatrix()
+    ins.buildTermDocMatrix()
 
 if __name__ == "__main__":
     main()
