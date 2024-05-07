@@ -40,28 +40,35 @@ class CosineSimilarity(object):
         self.dataToCsv(self.kmeans.cluster_centers_, "kMeansDis")
 
     def agglomerativeClustering(self):
+        # Extra point for comparison.
         self.agglomerative = AgglomerativeClustering(n_clusters=19).fit(self.cosineSim)
 
+
     def draw(self):
+        # draw an scatter plot for clustring algorithms
         pass
 
     def dataToCsv(self, data, name):
+        counter = 1
         with open(name+'.csv', 'w') as file:
             file.write("docs, ")
             for id in range(1, 21):
-                file.write(f"doc{id}, \t")
+                file.write(f"\'doc{id}\', \t")
             for _ in data:
-                file.write("\ndoc, \t")
+                file.write(f"\n\'doc{counter}\', \t")
+                counter += 1
                 for __ in _:
                     file.write(f"{__}, \t")
             file.close()
 def main():
     ins = CosineSimilarity()
     ins.cosineSimilarity()
+    print("asdasd")
     ins.kMeans()
     ins.dataToCsv(ins.cosineDis, "cosineDis")
     ins.dataToCsv(ins.cosineSim, "cosineSim")
+    print("hahahah")
 
-if __name__ == "__main__":
-    main()
+main()
+
     
