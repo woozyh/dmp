@@ -51,7 +51,7 @@ class CosineSimilarity(object):
     def dataToCsv(self, data, name):
         counter = 1
         with open(name+'.csv', 'w') as file:
-            file.write("docs, ")
+            file.write("\'docs\', ")
             for id in range(1, 21):
                 file.write(f"\'doc{id}\', \t")
             for _ in data:
