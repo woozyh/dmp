@@ -63,11 +63,9 @@ class CosineSimilarity(object):
 def main():
     ins = CosineSimilarity()
     ins.cosineSimilarity()
-    print("asdasd")
     ins.kMeans()
     ins.dataToCsv(ins.cosineDis, "cosineDis")
     ins.dataToCsv(ins.cosineSim, "cosineSim")
-    print("hahahah")
 
 main()
     
