@@ -1,6 +1,6 @@
 #!/usr/bin/python3.11.8
-from fileReader  import Reader
-from os          import listdir
+from fileReader    import Reader
+from os            import listdir
 from nltk.tokenize import RegexpTokenizer
 import sqlite3
 

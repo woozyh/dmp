@@ -2,9 +2,6 @@
 from numpy.linalg    import norm
 from numpy           import dot, array
 from itertools       import combinations
-from sklearn.cluster import KMeans # 
-from sklearn.cluster import AgglomerativeClustering  #-Hierarchical clustering method
-
 import sqlite3
 
 class CosineSimilarity(object):
@@ -35,19 +32,6 @@ class CosineSimilarity(object):
             self.cosineDis[int(comb[0][3:])-1][int(comb[1][3:])-1] = 1 - cosineSimilarity
             self.cosineDis[int(comb[1][3:])-1][int(comb[0][3:])-1] = 1 - cosineSimilarity
 
-    def kMeans(self):
-        self.kmeans = KMeans(n_clusters=19).fit(self.cosineDis)
-        self.dataToCsv(self.kmeans.cluster_centers_, "kMeansDis")
-
-    def agglomerativeClustering(self):
-        # Extra point for comparison.
-        self.agglomerative = AgglomerativeClustering(n_clusters=19).fit(self.cosineSim)
-
-
-    def draw(self):
-        # draw an scatter plot for clustring algorithms
-        pass
-
     def dataToCsv(self, data, name):
         counter = 1
         with open(name+'.csv', 'w') as file:
@@ -60,6 +44,7 @@ class CosineSimilarity(object):
                 for __ in _:
                     file.write(f"{__}, \t")
             file.close()
+
 def main():
     ins = CosineSimilarity()
     ins.cosineSimilarity()
