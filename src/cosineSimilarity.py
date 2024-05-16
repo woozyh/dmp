@@ -1,4 +1,5 @@
 #!/usr/bin/python3.11.8
+
 from numpy.linalg    import norm
 from numpy           import dot, array
 from itertools       import combinations
@@ -23,7 +24,7 @@ class CosineSimilarity(object):
         doc_y = array([f[1] for f in frequencies], dtype='i')        
         return (doc_x, doc_y)
 
-    def cosineSimilarity(self):
+    def cosineSimilarityAndDistance(self):
         for comb in self.documentCombinations():
             vector = self.vectorization(comb[0], comb[1])
             cosineSimilarity = dot(vector[0], vector[1])/((norm(vector[0]))*(norm(vector[1])))
@@ -47,10 +48,9 @@ class CosineSimilarity(object):
 
 def main():
     ins = CosineSimilarity()
-    ins.cosineSimilarity()
-    ins.kMeans()
+    ins.cosineSimilarityAndDistance()
     ins.dataToCsv(ins.cosineDis, "cosineDis")
     ins.dataToCsv(ins.cosineSim, "cosineSim")
 
-main()
-    
+if __name__ == "__main__":
+    main()    
