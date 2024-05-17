@@ -1,18 +1,19 @@
 #!/usr/bin/python3.11.8
 
-from numpy.linalg    import norm
-from numpy           import dot, array
-from itertools       import combinations
+from   numpy.linalg             import norm
+from   numpy                    import dot, array
+from   itertools                import combinations
 import sqlite3
 
 class CosineSimilarity(object):
 
     def __init__(self) -> None:
-        self.databse   = sqlite3.connect("termDoc.db")
-        self.cursor    = self.databse.cursor()
-        self.tables    = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-        self.cosineSim = [[0.0 for i in range(20)] for i in range(20)]
-        self.cosineDis = [[0.0 for i in range(20)] for i in range(20)]
+        self.databse      = sqlite3.connect("termDoc.db")
+        self.cursor       = self.databse.cursor()
+        self.tables       = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+        self.cosineSim    = [[0.0 for i in range(20)] for i in range(20)]
+        self.cosineDis    = [[0.0 for i in range(20)] for i in range(20)]
+        self.euclideanDis = [] 
 
     def documentCombinations(self) -> list:
         docComb = list(combinations([f[0] for f in self.tables], 2))        
@@ -27,11 +28,11 @@ class CosineSimilarity(object):
     def cosineSimilarityAndDistance(self):
         for comb in self.documentCombinations():
             vector = self.vectorization(comb[0], comb[1])
-            cosineSimilarity = dot(vector[0], vector[1])/((norm(vector[0]))*(norm(vector[1])))
+            cosineSimilarity  = dot(vector[0], vector[1])/((norm(vector[0]))*(norm(vector[1])))
             self.cosineSim[int(comb[0][3:])-1][int(comb[1][3:])-1] = cosineSimilarity
             self.cosineSim[int(comb[1][3:])-1][int(comb[0][3:])-1] = cosineSimilarity
             self.cosineDis[int(comb[0][3:])-1][int(comb[1][3:])-1] = 1 - cosineSimilarity
-            self.cosineDis[int(comb[1][3:])-1][int(comb[0][3:])-1] = 1 - cosineSimilarity
+            self.cosineDis[int(comb[1][3:])-1][int(comb[0][3:])-1] = 1 - cosineSimilarity 
 
     def dataToCsv(self, data, name):
         counter = 1

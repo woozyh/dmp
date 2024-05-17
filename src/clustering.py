@@ -1,6 +1,10 @@
 #!/usr/bin/python3.11.8
 
-from sklearn.cluster import kmeans, AgglomerativeClustering
+from   cosineSimilarity import CosineSimilarity
+from   sklearn.cluster  import (
+    kmeans,
+    AgglomerativeClustering
+    )
 import pandas as pd
 
 class partitioning(object):
