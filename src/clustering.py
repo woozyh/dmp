@@ -3,7 +3,6 @@
 from   matplotlib.pyplot     import scatter, show, xlabel, ylabel
 from   cosineSimilarity      import CosineSimilarity
 from   sklearn.cluster       import KMeans, DBSCAN, AgglomerativeClustering
-import pandas as pd
 
 MATRIX = CosineSimilarity()
 MATRIX.cosineSimilarityAndDistance()
@@ -15,12 +14,12 @@ class partitioning(object):
 
     def bestK(self):
         inertias = []
-        for i in range(1,11):
+        for i in range(1,21):
             kmeans = KMeans(n_clusters=i)
             kmeans.fit(self.cosineSimilarity)
             inertias.append(kmeans.inertia_)
 
-        scatter(range(1,11), inertias, marker='o')
+        scatter(range(1, 21), inertias, marker='o')
         xlabel('Number of clusters')
         ylabel('Inertia')
         show()
@@ -51,9 +50,11 @@ class hierarichal(object):
         print(self.ag)   
         pass
 
-ins = partitioning()
-ins.kmeans()
-ins.draw()
+def main():
+    ins = partitioning()
+    ins.bestK()
+    ins.kmeans()
+    ins.draw()
 
-# ins = hierarichal()
-# ins.agg()
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,5 @@
 #!/usr/bin/python3.11.8
+
 from collections.abc import Generator
 
 class Reader(object):
