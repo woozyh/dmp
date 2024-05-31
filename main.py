@@ -1,10 +1,20 @@
-from src.cosineSimilarity import CosineSimilarity
+from src.clustering import partitioning, hierarchical, density
 
 def main():
-    cosine = CosineSimilarity()
-    cosine.cosineSimilarityAndDistance()
-    cosine.dataToCsv(cosine.cosineDis, "cosineDis")
-    cosine.dataToCsv(cosine.cosineSim, "cosineSim")
 
+    partition = partitioning()
+    partition.bestK()
+    partition.kmeans()
+    partition.draw()
+
+    dens = density()
+    dens.bestEPS()
+    dens.dbscan()
+    dens.draw()
+
+    hierarchy = hierarchical()
+    hierarchy.agg()
+    hierarchy.draw()
+    
 if __name__ == "__main__":
     main()

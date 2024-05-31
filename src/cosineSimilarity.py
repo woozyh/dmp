@@ -11,8 +11,8 @@ class CosineSimilarity(object):
         self.databse      = sqlite3.connect("termDoc.db")
         self.cursor       = self.databse.cursor()
         self.tables       = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
-        self.cosineSim    = array([[0.0 for i in range(20)] for i in range(20)])
-        self.cosineDis    = array([[0.0 for i in range(20)] for i in range(20)])
+        self.cosineSim    = array([[1.0 for i in range(20)] for i in range(20)])
+        self.cosineDis    = array([[1.0 for i in range(20)] for i in range(20)])
 
     def documentCombinations(self) -> list:
         docComb = list(combinations([f[0] for f in self.tables], 2))        
@@ -34,16 +34,14 @@ class CosineSimilarity(object):
             self.cosineDis[int(comb[1][3:])-1][int(comb[0][3:])-1] = 1 - cosineSimilarity 
 
     def dataToCsv(self, data, name):
-        counter = 1
         with open(name+'.csv', 'w') as file:
-            file.write("\'docs\', ")
-            for id in range(1, 21):
-                file.write(f"\'doc{id}\', \t")
+            for i in range(0, 20):
+                file.write(f"{i},")
+            file.write("\n")
             for _ in data:
-                file.write(f"\n\'doc{counter}\', \t")
-                counter += 1
                 for __ in _:
-                    file.write(f"{__}, \t")
+                    file.write(f"{__},")
+                file.write('\n')
             file.close()
 
 def main():
