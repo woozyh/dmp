@@ -7,7 +7,6 @@ from matplotlib.pyplot       import plot, scatter, show, xlabel, ylabel, title
 from sklearn.decomposition   import PCA
 from sklearn.neighbors       import NearestNeighbors
 from scipy.cluster.hierarchy import dendrogram
-import threading
 
 class preProcessingData(object):
     
