@@ -162,4 +162,3 @@ cython_debug/
 # *.db
 *.csv
 *.ipynb
-*.md

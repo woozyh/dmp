@@ -59,8 +59,6 @@ class hierarchical(preProcessingData):
         self.u_labels = unique(self.label)
 
     def draw(self):
-        print(self.aggmo.children_)
-        print(self.aggmo.distances_)
         counts = zeros(self.aggmo.children_.shape[0])
         n_samples = len(self.aggmo.labels_)
         for i, merge in enumerate(self.aggmo.children_):
