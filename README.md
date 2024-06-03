@@ -62,7 +62,6 @@
 ![clustering-dbscan](img/clustering-dbscan.png)
 
 ## Benefits of our implementation
-* We must know what we want, the first thing we wanted was calculating the term document matrix from our documents in order to pass other phases, to calculate termDoc matrix we decide to store our matrix in a RDBMS, but why?
  
     ```
     1. parallel processing without any multithreading/parallelism with libraries (think you are working on dynamic datas and suddenly you get a requst to calculate)
