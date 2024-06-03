@@ -14,9 +14,9 @@ class BuildMatrix(object):
             self.cursor   = self.database.cursor()
             self.docs     = listdir("docs/")
             [self.cursor.execute(f"DROP TABLE IF EXISTS {doc[:-4]};") for doc in self.docs]
-            [self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {doc[:-4]} (term text PRIMARY KEY, frequency int);") for doc in self.docs]
+            [self.cursor.execute(f"CREATE TABLE IF NOT EXISTS {doc[:-5]} (term text PRIMARY KEY, frequency int);") for doc in self.docs]
         except sqlite3.OperationalError as er:
-            print(f"database Error: {er}")
+           print(f"database Error: {er}")
 
     def remStopWordsOur(self, lineIn) -> str:
         # this function never called in thish program at all we are doing some profiling on it for more performance

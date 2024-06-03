@@ -12,7 +12,7 @@ class CosineSimilarity(object):
         self.cursor       = self.databse.cursor()
         self.tables       = self.cursor.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
         self.cosineSim    = array([[1.0 for i in range(20)] for i in range(20)])
-        self.cosineDis    = array([[1.0 for i in range(20)] for i in range(20)])
+        self.cosineDis    = array([[0.0 for i in range(20)] for i in range(20)])
 
     def documentCombinations(self) -> list:
         docComb = list(combinations([f[0] for f in self.tables], 2))        
@@ -20,8 +20,8 @@ class CosineSimilarity(object):
 
     def vectorization(self, doc_x, doc_y) -> tuple:
         frequencies = self.cursor.execute(f"SELECT {doc_x}.frequency, {doc_y}.frequency FROM {doc_x} INNER JOIN {doc_y} ON {doc_x}.term = {doc_y}.term").fetchall()
-        doc_x = array([f[0] for f in frequencies], dtype='i')        
-        doc_y = array([f[1] for f in frequencies], dtype='i')        
+        doc_x = array([f[0] for f in frequencies], dtype='i')
+        doc_y = array([f[1] for f in frequencies], dtype='i')
         return (doc_x, doc_y)
 
     def cosineSimilarityAndDistance(self):
