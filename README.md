@@ -62,8 +62,7 @@
 ![clustering-dbscan](img/clustering-dbscan.png)
 
 ## Benefits of our implementation
- 
-    ```
+ ```
     1. parallel processing without any multithreading/parallelism with libraries (think you are working on dynamic datas and suddenly you get a requst to calculate)
     
     2. incremental working (in each state you can check your docs clusterig result while 
@@ -71,4 +70,4 @@
     
     3. performance (this method is ram/cpu friendly, but lazy depending on your storing hardware)
     4. accuracy (nothing miss or crash)
-    ```
+ ```
